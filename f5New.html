@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISI KEF GAME JAM 2024 - Frostbyte Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #0a1526;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 21, 38, 0.9), rgba(10, 21, 38, 0.9)),
+                url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23005599' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Pixel Art Snow Effect */
+        .pixel-snow {
+            position: fixed;
+            top: -10px;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1em;
+            animation: pixel-fall linear infinite;
+            text-shadow: 0 0 5px #00aaff;
+        }
+        
+        @keyframes pixel-fall {
+            to {
+                transform: translateY(100vh) rotate(0deg);
+            }
+        }
+        
+        /* Pixel Art Glitch Effect */
+        @keyframes pixel-glitch {
+            0%, 100% { transform: translate(0); }
+            10% { transform: translate(-2px, 0); }
+            20% { transform: translate(2px, 2px); }
+            30% { transform: translate(-2px, 0); }
+            40% { transform: translate(0, -2px); }
+            50% { transform: translate(0, 2px); }
+            60% { transform: translate(2px, 0); }
+            70% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            90% { transform: translate(0, 2px); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Pixel Border Utility */
+        .pixel-border {
+            position: relative;
+            border: 4px solid;
+            border-image-slice: 2;
+            border-image-width: 2;
+            border-image-outset: 0;
+            border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h2v2H0zM4 0h2v2H4zM2 2h2v2H2zM6 2h2v2H6zM0 4h2v2H0zM4 4h2v2H4zM2 6h2v2H2zM6 6h2v2H6z" fill="%23ff6600"/></svg>');
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .pixel-border-blue {
+            border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h2v2H0zM4 0h2v2H4zM2 2h2v2H2zM6 2h2v2H6zM0 4h2v2H0zM4 4h2v2H4zM2 6h2v2H2zM6 6h2v2H6z" fill="%2300aaff"/></svg>');
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #0a1f3a;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+            animation: pixel-glitch 0.5s infinite;
+            animation-play-state: paused;
+        }
+        
+        .hero:hover {
+            animation-play-state: running;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(90deg, transparent 50%, rgba(255, 102, 0, 0.05) 50%),
+                linear-gradient(transparent 50%, rgba(0, 170, 255, 0.05) 50%);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+        
+        .hero-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3.5em;
+            font-weight: 400;
+            color: #ff6600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            text-shadow: 
+                4px 4px 0 #003366,
+                8px 8px 0 rgba(0, 0, 0, 0.5);
+            line-height: 1.3;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2em;
+            }
+        }
+        
+        .hero-subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8em;
+            color: #00aaff;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            text-shadow: 
+                3px 3px 0 #003366,
+                6px 6px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .pixel-badge {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #003366;
+            color: #00aaff;
+            margin-top: 20px;
+            font-size: 1.3em;
+            position: relative;
+            animation: pixel-badge-blink 1.5s infinite;
+        }
+        
+        @keyframes pixel-badge-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Info Cards */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .info-card {
+            background-color: #0a1f3a;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(45deg, transparent 48%, #ff6600 50%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, #00aaff 50%, transparent 52%);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 0 rgba(255, 102, 0, 0.3);
+        }
+        
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            color: #ff6600;
+            filter: drop-shadow(2px 2px 0 #003366);
+        }
+        
+        .card-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5em;
+            color: #00aaff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #003366;
+        }
+        
+        .card-content {
+            font-size: 1.5em;
+            line-height: 1.5;
+            color: #e6f1ff;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-content p {
+            margin-bottom: 10px;
+        }
+        
+        /* Experience Section */
+        .experience-section {
+            background-color: #0a1f3a;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5em;
+            color: #ff6600;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            text-shadow: 
+                3px 3px 0 #003366,
+                6px 6px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .experience-item {
+            background-color: #003366;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #ff6600;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .experience-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .experience-item:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 8px 0 rgba(255, 102, 0, 0.5);
+        }
+        
+        /* Workflow */
+        .workflow {
+            background-color: #003366;
+            padding: 40px;
+            margin: 40px 0;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .workflow-step {
+            background-color: #0a1f3a;
+            border: 3px solid #ff6600;
+            padding: 15px 25px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        .workflow-step:hover {
+            transform: scale(1.1);
+            background-color: #ff6600;
+            color: #003366;
+        }
+        
+        .workflow-arrow {
+            color: #00aaff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        /* Weather Alert */
+        .weather-alert {
+            background-color: #003366;
+            padding: 40px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+            animation: weather-pulse 2s infinite;
+        }
+        
+        @keyframes weather-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 102, 0, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 102, 0, 0); }
+        }
+        
+        .alert-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8em;
+            color: #ff9900;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #003366;
+        }
+        
+        /* Requirements */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .requirement-card {
+            background-color: #0a1f3a;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .requirement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px dashed #00aaff;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .requirement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 10px 10px 0 rgba(0, 170, 255, 0.3);
+        }
+        
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            margin: 60px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background-color: #ff6600;
+            color: #003366;
+            text-decoration: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.3em;
+            font-weight: 400;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                4px 4px 0 #003366,
+                8px 8px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 
+                2px 2px 0 #003366,
+                6px 6px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Sponsors */
+        .sponsors {
+            background-color: #0a1f3a;
+            padding: 40px;
+            text-align: center;
+            margin: 60px 0;
+        }
+        
+        .sponsor-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .sponsor-box {
+            width: 200px;
+            height: 100px;
+            background-color: #003366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sponsor-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid #ff6600;
+            opacity: 0.5;
+        }
+        
+        .sponsor-box:hover {
+            transform: scale(1.1);
+            box-shadow: 8px 8px 0 rgba(255, 102, 0, 0.5);
+        }
+        
+        /* Social Links */
+        .social-section {
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+            background-color: #003366;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px);
+            color: #ff6600;
+        }
+        
+        .social-icon {
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2em;
+            color: #00aaff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #003366;
+        }
+        
+        h3 {
+            font-family: 'Press Start 2P', cursive;
+            color: #ff6600;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            text-shadow: 1px 1px 0 #003366;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            font-size: 1.3em;
+            color: #cbd5e1;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        ul li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #ff6600;
+        }
+        
+        strong {
+            color: #00aaff;
+        }
+        
+        /* Pixel Art Characters */
+        .pixel-character {
+            position: fixed;
+            width: 64px;
+            height: 64px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* Pixel Art Footer */
+        .footer-pixel-art {
+            height: 50px;
+            background-image: 
+                linear-gradient(45deg, #ff6600 25%, transparent 25%),
+                linear-gradient(-45deg, #ff6600 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #ff6600 75%),
+                linear-gradient(-45deg, transparent 75%, #ff6600 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3em;
+            }
+            
+            .section-title {
+                font-size: 1.8em;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Prizes Section Styling */
+.prize-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.prize-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.1) 50%, transparent 52%);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.prize-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.prize-card:hover::after {
+    content: '🎮';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 2em;
+    opacity: 0.3;
+    animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Prize glow effects */
+.prize-card:nth-child(1):hover {
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+}
+
+.prize-card:nth-child(2):hover {
+    box-shadow: 0 15px 30px rgba(192, 192, 192, 0.2);
+}
+
+.prize-card:nth-child(3):hover {
+    box-shadow: 0 15px 30px rgba(205, 127, 50, 0.2);
+}
+    </style>
+</head>
+<body>
+    <!-- Pixel Art Characters -->
+    <div class="pixel-character" id="pixel-char1" style="top: 10%; left: 5%;">❄️</div>
+    <div class="pixel-character" id="pixel-char2" style="top: 30%; right: 5%;">🎮</div>
+    <div class="pixel-character" id="pixel-char3" style="bottom: 20%; left: 10%;">👨‍💻</div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero pixel-border">
+            <h1 class="hero-title">SICCA FROSTBYTE<br>GAME JAM 2025</h1>
+            <p class="hero-subtitle">:: 1ST EDITION ::</p>
+            <div class="pixel-badge pixel-border">❄️ 48 HOURS OF PIXEL CREATIVITY ❄️</div>
+        </div>
+
+        <!-- Date & Location -->
+        <div class="info-section">
+            <div class="info-card pixel-border">
+                <span class="card-icon">⏱️</span>
+                <h3 class="card-title">THE SCHEDULE</h3>
+                <div class="card-content">
+                    <p><strong>START:</strong> DEC 13 @ 8:30 AM</p>
+                    <p><strong>END:</strong> DEC 14 @ 6:00 PM</p>
+                    <p style="color: #ff6600; margin-top: 10px;">⚡ NON-STOP [48HR] CYCLE</p>
+                </div>
+            </div>
+            
+            <div class="info-card pixel-border">
+                <span class="card-icon">📍</span>
+                <h3 class="card-title">THE VENUE</h3>
+                <div class="card-content">
+                    <p><strong>LOCATION:</strong> ISI KEF </p>
+                    <p><strong>FACILITIES:</strong> EQUIPPED LABS & SPACES</p>
+                    <p style="color: #00aaff; margin-top: 10px;">🔥 STATE-OF-THE-ART SETUP</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="experience-section pixel-border">
+            <h2 class="section-title">🔥 THE FROSTBYTE EXPERIENCE</h2>
+            <p style="text-align: center; font-size: 1.5em; margin: 20px 0; color: #00aaff;">A <strong style="color: #ff6600;">48-HOUR CREATION MARATHON</strong> COMBINING ART, CODE, SOUND, AND DESIGN.</p>
+            
+            <div class="experience-grid">
+                <div class="experience-item pixel-border-blue">
+                    <div style="font-size: 2.5em; margin-bottom: 10px; color: #ff6600;">🎨</div>
+                    <strong style="color: #00aaff;">ASSET CREATION STATIONS</strong>
+                </div>
+                <div class="experience-item pixel-border-blue">
+                    <div style="font-size: 2.5em; margin-bottom: 10px; color: #ff6600;">🛠️</div>
+                    <strong style="color: #00aaff;">ENGINE WORKSHOPS</strong>
+                </div>
+                <div class="experience-item pixel-border-blue">
+                    <div style="font-size: 2.5em; margin-bottom: 10px; color: #ff6600;">🎮</div>
+                    <strong style="color: #00aaff;">PLAYTESTING SESSIONS</strong>
+                </div>
+                <div class="experience-item pixel-border-blue">
+                    <div style="font-size: 2.5em; margin-bottom: 10px; color: #ff6600;">👨‍🏫</div>
+                    <strong style="color: #00aaff;">INDUSTRY MENTORS</strong>
+                </div>
+            </div>
+            
+            <div class="workflow pixel-border-blue">
+                <h3 style="text-align: center; font-size: 1.8em; color: #ff6600;">THE WORKFLOW</h3>
+                <div class="workflow-steps">
+                    <span class="workflow-step">💡 CONCEPT</span>
+                    <span class="workflow-arrow">►</span>
+                    <span class="workflow-step">⚙️ PRODUCTION</span>
+                    <span class="workflow-arrow">►</span>
+                    <span class="workflow-step">✨ POLISHING</span>
+                    <span class="workflow-arrow">►</span>
+                    <span class="workflow-step">🕹️ PLAYTESTING</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Alert -->
+        <div class="weather-alert pixel-border">
+            <h2 class="alert-title">❄️ WEATHER ADVISORY: KEF COLD TEMPERATURES</h2>
+            <p style="font-size: 1.5em; text-align: center; margin-bottom: 20px; color: #ff9900;">KEF EXPERIENCES VERY COLD TEMPERATURES IN DECEMBER, ESPECIALLY AT NIGHT.</p>
+            <ul style="padding-left: 20px;">
+                <li><strong style="color: #ff9900;">🧥 WARM CLOTHING:</strong> WE STRONGLY RECOMMEND BRINGING THERMAL LAYERS, JACKETS, AND HATS.</li>
+                <li><strong style="color: #ff9900;">👕 ATTIRE:</strong> BRING COMFORTABLE CLOTHES FOR THE 48-HOUR HACKATHON.</li>
+                <li><strong style="color: #ff9900;">🚗 TRANSIT:</strong> PLEASE PREPARE FOR COLD CONDITIONS DURING OUTDOOR BREAKS AND TRAVEL.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-size: 1.3em; color: #ff9900; font-style: italic;">STAY WARM, STAY FOCUSED!</p>
+        </div>
+
+        <!-- Requirements -->
+        <div style="margin-bottom: 60px;">
+            <h2 class="section-title">📋 PARTICIPATION REQUIREMENTS</h2>
+            <div class="requirements-grid">
+                <div class="requirement-card pixel-border">
+                    <h3>👥 TEAM & ELIGIBILITY</h3>
+                    <ul>
+                        <li><strong>TEAM SIZE:</strong> 2 TO 4 STUDENTS</li>
+                        <li><strong>AGE:</strong> 18+ ONLY</li>
+                        <li><strong>ID:</strong> VALID STUDENT ID <span style="color: #ff6600; text-decoration: underline;">REQUIRED</span></li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card pixel-border">
+                    <h3>📝 REGISTRATION</h3>
+                    <ul>
+                        <li><strong>DEADLINE:</strong> BEFORE DEC 11</li>
+                        <li><strong>PROCESS:</strong> MUST COMPLETE REGISTRATION FORM WITH FULL DOCUMENTATION</li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card pixel-border">
+                    <h3>💻 LOGISTICS</h3>
+                    <ul>
+                        <li><strong>LAPTOP:</strong> <span style="color: #ff6600; font-weight: bold;">MANDATORY</span></li>
+                        <li><strong>ATTENDANCE:</strong> REQUIRED FOR THE ENTIRE EVENT (DEC 13-14) AT ISI KEF</li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card pixel-border">
+                    <h3>⚖️ RULES</h3>
+                    <ul>
+                        <li><strong>INTEGRITY:</strong> MUST COMPLY WITH CODE OF CONDUCT</li>
+                        <li><strong>ORIGINALITY:</strong> PROJECT MUST BE BUILT <em>DURING</em> THE HACKATHON</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <a href="#" class="cta-button">
+                🔗 REGISTER HERE (DEADLINE DEC 11)
+            </a>
+        </div>
+
+        <!-- Add this section after the Experience Section (around line 230) -->
+
+<!-- Prizes Section -->
+<div class="prizes-section pixel-border" style="margin-bottom: 60px;">
+    <h2 class="section-title">🏆 FROSTBYTE PRIZES</h2>
+    <p style="text-align: center; font-size: 1.5em; margin: 20px 0; color: #ff9900;">COMPETE FOR THESE AMAZING PRIZES!</p>
+    
+    <div class="prizes-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 40px 0;">
+        <!-- 1st Place -->
+        <div class="prize-card" style="background: linear-gradient(135deg, #003366, #0a1f3a); padding: 30px; position: relative; overflow: hidden; border: 4px solid #ffd700;">
+            <div style="position: absolute; top: 10px; right: 10px; font-size: 3em; color: #ffd700; opacity: 0.3;">🥇</div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 4em; color: #ffd700; margin-bottom: 10px;">🏆</div>
+                <h3 style="font-family: 'Press Start 2P', cursive; color: #ffd700; font-size: 1.5em; text-shadow: 2px 2px 0 #003366;">1ST PLACE</h3>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3em; color: #ffffff; font-family: 'Press Start 2P', cursive; text-shadow: 3px 3px 0 #003366;">
+                    1000<span style="color: #ffd700;">DT</span>
+                </div>
+                <p style="font-size: 1.3em; color: #00aaff; margin-top: 15px;">+ CERTIFICATE</p>
+                <p style="font-size: 1.2em; color: #cbd5e1; margin-top: 10px;">CHAMPION OF FROSTBYTE 2025</p>
+            </div>
+        </div>
+        
+        <!-- 2nd Place -->
+        <div class="prize-card" style="background: linear-gradient(135deg, #003366, #0a1f3a); padding: 30px; position: relative; overflow: hidden; border: 4px solid #c0c0c0;">
+            <div style="position: absolute; top: 10px; right: 10px; font-size: 3em; color: #c0c0c0; opacity: 0.3;">🥈</div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 4em; color: #c0c0c0; margin-bottom: 10px;">🏆</div>
+                <h3 style="font-family: 'Press Start 2P', cursive; color: #c0c0c0; font-size: 1.5em; text-shadow: 2px 2px 0 #003366;">2ND PLACE</h3>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3em; color: #ffffff; font-family: 'Press Start 2P', cursive; text-shadow: 3px 3px 0 #003366;">
+                    600<span style="color: #c0c0c0;">DT</span>
+                </div>
+                <p style="font-size: 1.3em; color: #00aaff; margin-top: 15px;">+ CERTIFICATE</p>
+                <p style="font-size: 1.2em; color: #cbd5e1; margin-top: 10px;">EXCELLENCE IN GAME DEVELOPMENT</p>
+            </div>
+        </div>
+        
+        <!-- 3rd Place -->
+        <div class="prize-card" style="background: linear-gradient(135deg, #003366, #0a1f3a); padding: 30px; position: relative; overflow: hidden; border: 4px solid #cd7f32;">
+            <div style="position: absolute; top: 10px; right: 10px; font-size: 3em; color: #cd7f32; opacity: 0.3;">🥉</div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 4em; color: #cd7f32; margin-bottom: 10px;">🏆</div>
+                <h3 style="font-family: 'Press Start 2P', cursive; color: #cd7f32; font-size: 1.5em; text-shadow: 2px 2px 0 #003366;">3RD PLACE</h3>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3em; color: #ffffff; font-family: 'Press Start 2P', cursive; text-shadow: 3px 3px 0 #003366;">
+                    300<span style="color: #cd7f32;">DT</span>
+                </div>
+                <p style="font-size: 1.3em; color: #00aaff; margin-top: 15px;">+ CERTIFICATE</p>
+                <p style="font-size: 1.2em; color: #cbd5e1; margin-top: 10px;">OUTSTANDING CREATIVITY</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Additional Prizes -->
+    <div style="background-color: #0a1f3a; padding: 30px; margin-top: 30px; border: 3px solid #00aaff;">
+        <h3 style="font-family: 'Press Start 2P', cursive; color: #00aaff; text-align: center; margin-bottom: 20px; font-size: 1.3em;">🎁 ADDITIONAL PRIZES & CATEGORIES</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+            <div style="text-align: center; padding: 20px; background-color: #003366;">
+                <div style="font-size: 2.5em; color: #ff6600; margin-bottom: 10px;">🎨</div>
+                <p style="color: #ffffff; font-size: 1.2em;">BEST ART & DESIGN</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background-color: #003366;">
+                <div style="font-size: 2.5em; color: #ff6600; margin-bottom: 10px;">💡</div>
+                <p style="color: #ffffff; font-size: 1.2em;">MOST INNOVATIVE GAMEPLAY</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background-color: #003366;">
+                <div style="font-size: 2.5em; color: #ff6600; margin-bottom: 10px;">🎵</div>
+                <p style="color: #ffffff; font-size: 1.2em;">BEST SOUND DESIGN</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background-color: #003366;">
+                <div style="font-size: 2.5em; color: #ff6600; margin-bottom: 10px;">👥</div>
+                <p style="color: #ffffff; font-size: 1.2em;">BEST TEAM SPIRIT</p>
+            </div>
+        </div>
+        <p style="text-align: center; color: #ff9900; font-size: 1.3em; margin-top: 20px; font-family: 'Press Start 2P', cursive;">
+            🏆 ALL PARTICIPANTS RECEIVE CERTIFICATES OF PARTICIPATION 🏆
+        </p>
+    </div>
+</div>
+
+        <!-- Sponsors -->
+        <div class="sponsors pixel-border">
+            <h2 class="section-title">⭐ OUR SPONSORS</h2>
+            <p style="font-size: 1.5em; margin: 20px 0; color: #00aaff;">A HUGE THANK YOU TO OUR INCREDIBLE SPONSORS WHO MAKE THIS EVENT POSSIBLE!</p>
+            <div class="sponsor-grid">
+                <div class="sponsor-box pixel-border">
+                    <span style="font-size: 1.5em; color: #ff6600;">PIXEL SPONSOR</span>
+                </div>
+                <div class="sponsor-box pixel-border">
+                    <span style="font-size: 1.5em; color: #00aaff;">BYTE SPONSOR</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-section pixel-border">
+            <h2 class="section-title">🌐 STAY CONNECTED</h2>
+            <div class="social-links">
+                <a href="https://www.instagram.com/reel/DEiCJ8gOloZ/" class="social-link pixel-border-blue">
+                    <span class="social-icon" style="color: #E4405F;"></span>
+                    INSTAGRAM
+                </a>
+                <a href="https://www.facebook.com/icilegroupe/" class="social-link pixel-border-blue">
+                    <span class="social-icon" style="color: #3b5998;"></span>
+                    FACEBOOK
+                </a>
+                <a href="https://www.facebook.com/icilegroupe/" class="social-link pixel-border-blue">
+                    <span class="social-icon" style="color: #3b5998;"></span>
+                    Discord
+                </a>
+            </div>
+            <p style="margin-top: 20px; color: #94a3b8; font-size: 1.3em;">FOLLOW US FOR LIVE UPDATES AND BEHIND-THE-SCENES CONTENT!</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-pixel-art"></div>
+        <div style="text-align: center; padding: 30px 0; color: #00aaff; font-size: 1.3em;">
+            <p>ISI KEF CAMPUS LABS | SICCA FROSTBYTE EDITION</p>
+            
+        </div>
+    </div>
+
+    <script>
+        // Create pixel snowflakes
+        function createPixelSnow() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'pixel-snow';
+            
+            // Use pixel art characters for snow
+            const pixelChars = ['❄', '✦', '❅', '❆', '•', '■', '□'];
+            snowflake.innerHTML = pixelChars[Math.floor(Math.random() * pixelChars.length)];
+            
+            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            // Random color between blue and orange
+            const colors = ['#00aaff', '#0088cc', '#ff6600', '#ff9900'];
+            snowflake.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 8000);
+        }
+        
+        setInterval(createPixelSnow, 200);
+        
+        // Animate pixel characters
+        const chars = document.querySelectorAll('.pixel-character');
+        chars.forEach(char => {
+            // Random movement
+            let x = parseFloat(char.style.left || char.style.right);
+            let y = parseFloat(char.style.top || char.style.bottom);
+            let xDir = Math.random() > 0.5 ? 1 : -1;
+            let yDir = Math.random() > 0.5 ? 1 : -1;
+            let speed = Math.random() * 0.5 + 0.2;
+            
+            function moveChar() {
+                let rect = char.getBoundingClientRect();
+                
+                // Bounce off edges
+                if (rect.left <= 0 || rect.right >= window.innerWidth) {
+                    xDir *= -1;
+                }
+                
+                if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+                    yDir *= -1;
+                }
+                
+                // Update position
+                let currentLeft = parseFloat(char.style.left);
+                let currentTop = parseFloat(char.style.top);
+                
+                char.style.left = (currentLeft + (xDir * speed)) + '%';
+                char.style.top = (currentTop + (yDir * speed)) + '%';
+                
+                requestAnimationFrame(moveChar);
+            }
+            
+            // Start animation
+            setTimeout(moveChar, Math.random() * 1000);
+        });
+        
+        // Add pixel click effect
+        document.addEventListener('click', function(e) {
+            const pixel = document.createElement('div');
+            pixel.style.position = 'fixed';
+            pixel.style.left = e.clientX + 'px';
+            pixel.style.top = e.clientY + 'px';
+            pixel.style.width = '20px';
+            pixel.style.height = '20px';
+            pixel.style.backgroundColor = Math.random() > 0.5 ? '#ff6600' : '#00aaff';
+            pixel.style.zIndex = '1000';
+            pixel.style.pointerEvents = 'none';
+            pixel.style.boxShadow = '0 0 10px currentColor';
+            document.body.appendChild(pixel);
+            
+            // Animate and remove
+            setTimeout(() => {
+                pixel.style.transform = 'scale(0)';
+                pixel.style.opacity = '0';
+                setTimeout(() => pixel.remove(), 300);
+            }, 100);
+        });
+        
+        // Add glitch effect to hero title on hover
+        const heroTitle = document.querySelector('.hero-title');
+        heroTitle.addEventListener('mouseenter', function() {
+            this.style.animation = 'pixel-glitch 0.3s 3';
+        });
+        
+        heroTitle.addEventListener('animationend', function() {
+            this.style.animation = '';
+        });
+    </script>
+</body>
+</html>
